@@ -1,0 +1,52 @@
+/* src/pages/MainPage.css */
+
+.main_main_content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+.main_card_content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* 카드 사이의 간격 */
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.card {
+  width: calc((100% / 4) - 16px); /* 한 줄에 4개의 카드 */
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: white;
+  padding: 16px;
+  text-align: center;
+}
+
+.img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 992px) {
+  .card {
+    width: calc((100% / 3) - 12px); /* 한 줄에 3개의 카드 */
+  }
+}
+
+@media (max-width: 768px) {
+  .card {
+    width: calc((100% / 2) - 8px); /* 한 줄에 2개의 카드 */
+  }
+}
+
+@media (max-width: 576px) {
+  .card {
+    width: 100%; /* 한 줄에 1개의 카드 */
+  }
+}
