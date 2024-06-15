@@ -1,0 +1,35 @@
+.price-range-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .price-range-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    margin-top: 5px;
+    width: 100%;
+  }
+  
+  .price-range-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+    width: 100%;
+  }
+  
+  .price-range-buttons button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-left: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .price-range-buttons button:first-child {
+    background-color: #ccc;
+  }
+  

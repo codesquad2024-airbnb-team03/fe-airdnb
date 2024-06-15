@@ -1,0 +1,47 @@
+.traveler-filter-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .traveler-filter-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .traveler-filter-counter {
+    display: flex;
+    align-items: center;
+  }
+  
+  .traveler-filter-counter button {
+    background-color: #f0f0f0;
+    border: none;
+    padding: 5px 10px;
+    margin: 0 5px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .traveler-filter-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+  }
+  
+  .traveler-filter-buttons button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-left: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .traveler-filter-buttons button:first-child {
+    background-color: #ccc;
+  }
+  

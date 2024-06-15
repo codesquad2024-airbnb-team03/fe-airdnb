@@ -4,6 +4,7 @@ import "./Home.css";
 import MainPage from "./MainPage";
 import LoginModal from "../components/LoginModal";
 import RegisterModal from "../components/RegisterModal";
+import Filter from "../components/Filter";
 import defaultProfile from "../assets/default-profile.png";
 
 const Home = () => {
@@ -46,7 +47,6 @@ const Home = () => {
   };
 
   const handleLogout = () => {
-    // 로그아웃 처리: 로컬 스토리지에서 JWT 토큰 삭제 및 사용자 상태 초기화
     localStorage.removeItem("jwtToken");
     setUser(null);
     setShowMenu(false);
@@ -77,6 +77,11 @@ const Home = () => {
     };
     fetchUserProfile();
   }, []);
+
+  const applyFilters = (filters) => {
+    console.log("Applied filters:", filters);
+    // 필터 적용 로직 추가
+  };
 
   return (
     <div>
@@ -114,6 +119,7 @@ const Home = () => {
         </div>
       </header>
       <main className="content-main">
+        <Filter applyFilters={applyFilters} />
         <MainPage />
       </main>
 
