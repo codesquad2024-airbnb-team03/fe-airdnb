@@ -13,7 +13,7 @@ html {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px;
+  padding: 16px 60px 16px 60px;
   font-size: 30px;
   width: 100%;
   background-color: #f8f8f8; /* 배경 색상 */
@@ -26,6 +26,12 @@ html {
   text-decoration: none;
   color: #333; /* 텍스트 색상 */
   font-weight: bold;
+}
+
+/* 프로필 컨테이너 스타일 */
+.profile-container {
+  display: flex;
+  align-items: center;
 }
 
 /* 로그인 버튼 스타일 */
@@ -49,4 +55,106 @@ html {
   padding: 20px;
   width: 100%;
   box-sizing: border-box; /* padding 포함하여 width 계산 */
+}
+
+.nav-tab-container {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  padding: 5px 10px;
+  cursor: pointer;
+  background-color: #ffffff; /* 배경색 추가 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+}
+
+.hamburger-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 20px;
+  height: 20px;
+  margin-left: 5px;
+  margin-right: 10px;
+}
+
+.hamburger-menu .bar {
+  width: 100%;
+  height: 2px;
+  background-color: black;
+}
+
+.profile-image {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 1px solid #ccc;
+}
+
+.login-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 0; /* 패딩 제거 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+  z-index: 1000; /* 상단에 표시되도록 z-index 추가 */
+}
+
+.login-button {
+  padding: 10px 40px;
+  border: none;
+  border-radius: 8px;
+  background-color: #007bff; /* 로그인 버튼과 동일한 배경색 */
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.login-button:hover {
+  background-color: #0056b3; /* 로그인 버튼과 동일한 호버 색상 */
+}
+
+/* 사용자 이름 스타일 */
+.user-name {
+  margin-right: 10px; /* 로그인 버튼과의 간격 */
+  font-size: 16px;
+  color: #333; /* 텍스트 색상 */
+}
+
+/* 메뉴 컨테이너 스타일 */
+.menu-container {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  padding: 5px 0;
+}
+
+/* 메뉴 버튼 스타일 */
+.menu-button {
+  background-color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: left;
+  font-size: 15px;
+  cursor: pointer;
+  width: 100%;
+  border-bottom: 1px solid #ddd;
+}
+
+.menu-button:last-child {
+  border-bottom: none;
+}
+
+.menu-button:hover {
+  background-color: #f0f0f0;
 }
