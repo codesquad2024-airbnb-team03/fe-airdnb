@@ -12,6 +12,17 @@ const Image = ({ data }) => {
   return (
     <div className="card" onClick={handleClick} style={{ cursor: "pointer" }}>
       <img src={data.src} className="img" alt={`Image ${data.id}`} />
+      <div className="text-content">
+        <p
+          style={{
+            fontWeight: 500,
+            margin: 10,
+          }}
+        >
+          {data.place}
+        </p>
+        <p>{data.desc}</p>
+      </div>
     </div>
   );
 };

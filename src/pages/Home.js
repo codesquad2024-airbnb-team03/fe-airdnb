@@ -85,19 +85,20 @@ const Home = () => {
 
   return (
     <div>
-      <header
-        className="header"
-        style={{
-          fontSize: 30,
-          display: "flex",
-          width: "100%",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <div className="nav-logo">
+      <header className="header">
+        <div
+          className="nav-logo"
+          style={{ fontSize: 30, alignItems: "center" }}
+        >
           <a href="/">Airdnb</a>
         </div>
+        <nav className="navigation">
+          <ul>
+            <li>숙소</li>
+            <li>체험</li>
+            <li>온라인 체험</li>
+          </ul>
+        </nav>
         <div className="profile-container">
           {user && <span className="user-name">{user.name}님</span>}
           <div
@@ -128,8 +129,14 @@ const Home = () => {
           className="menu-container"
           ref={menuRef}
           style={{
-            top: profileRef.current.getBoundingClientRect().bottom + window.scrollY + 10,
-            left: profileRef.current.getBoundingClientRect().left + window.scrollX - 50,
+            top:
+              profileRef.current.getBoundingClientRect().bottom +
+              window.scrollY +
+              10,
+            left:
+              profileRef.current.getBoundingClientRect().left +
+              window.scrollX -
+              50,
           }}
         >
           {user ? (
