@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import './FilteredResults.css';  // CSS 파일 임포트
 import useDebounce from '../hooks/useDebounce';  // useDebounce 훅 임포트
+import API_BASE_URL from "../config"
 
 const FilteredResults = () => {
   const location = useLocation();
@@ -17,7 +18,7 @@ const FilteredResults = () => {
 
   const fetchFilteredAccommodations = useCallback(async (latitude, longitude) => {
     try {
-      const response = await axios.get('http://localhost:8080/accommodations/filter', {
+      const response = await axios.get(API_BASE_URL + "/accommodations/filter", {
         params: {
           currentLatitude: latitude,
           currentLongitude: longitude,

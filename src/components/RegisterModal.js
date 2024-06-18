@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./RegisterModal.css";
+import API_BASE_URL from "../config"
 
 const RegisterModal = ({ closeModal }) => {
   const [name, setName] = useState("");
@@ -16,7 +17,7 @@ const RegisterModal = ({ closeModal }) => {
     }
 
     try {
-      const response = await axios.post("http://localhost:8080/users", {
+      const response = await axios.post(API_BASE_URL + "/users", {
         name,
         password,
       });
