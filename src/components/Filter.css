@@ -35,8 +35,9 @@
   padding: 5px;
   border: 1px solid #ddd;
   border-radius: 5px;
-  width: 150px; /* 너비를 적절히 조정 */
+  width: 170px; /* 너비를 적절히 조정 */
   text-align: center;
+  background-color: white;
 }
 
 .date-picker {
