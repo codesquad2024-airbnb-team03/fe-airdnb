@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./Home.css";
-import MainPage from "./MainPage";
 import LoginModal from "../components/LoginModal";
 import RegisterModal from "../components/RegisterModal";
 import Filter from "../components/Filter";
+import Footer from "./Footer";
+import Header from "./Header";
+import Main from "./Main";
 import defaultProfile from "../assets/default-profile.png";
 import { useNavigate } from 'react-router-dom';
 
@@ -126,44 +128,12 @@ const Home = () => {
 
   return (
     <div>
-      <header className="header">
-        <div
-          className="nav-logo"
-          style={{ fontSize: 30, alignItems: "center" }}
-        >
-          <a href="/">Airdnb</a>
-        </div>
-        <nav className="navigation">
-          <ul>
-            <li>숙소</li>
-            <li>체험</li>
-            <li>온라인 체험</li>
-          </ul>
-        </nav>
-        <div className="profile-container">
-          {user && <span className="user-name">{user.name}님</span>}
-          <div
-            className="nav-tab-container"
-            onClick={handleProfileClick}
-            ref={profileRef}
-          >
-            <div className="hamburger-menu">
-              <div className="bar"></div>
-              <div className="bar"></div>
-              <div className="bar"></div>
-            </div>
-            <img
-              src={user?.profileImg || defaultProfile}
-              alt="Profile"
-              className="profile-image"
-            />
-          </div>
-        </div>
-      </header>
+      <Header />
       <main className="content-main">
         <Filter applyFilters={applyFilters} />
-        <MainPage />
+        <Main />
       </main>
+      <Footer />
 
       {showMenu && (
         <div

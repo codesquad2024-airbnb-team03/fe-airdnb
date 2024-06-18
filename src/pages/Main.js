@@ -1,8 +1,8 @@
 import React from "react";
-import "./MainPage.css";
+import "./Main.css";
 import Image from "../components/Image";
 
-const MainPage = () => {
+const Main = () => {
   const dataArr = [
     {
       id: 1,
@@ -55,13 +55,19 @@ const MainPage = () => {
   ];
 
   return (
-    <div style={{ width: "100%", height: "100%" }}>
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        marginTop: 100,
+        marginBottom: 100,
+      }}
+    >
       <p
         style={{
           fontSize: 20,
           fontWeight: 500,
-          marginLeft: 60,
-          marginTop: 200,
+          marginLeft: 55,
         }}
       >
         가까운 여행지 둘러보기
@@ -77,4 +83,4 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default Main;
