@@ -1,6 +1,6 @@
-/* src/pages/MainPage.css */
+/* src/pages/Main.css */
 
-.main_main_content {
+.main_content {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -8,10 +8,10 @@
   padding: 20px;
 }
 
-.main_card_content {
+.card_content {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px; /* 카드 사이의 간격 */
+  gap: 20px;
   max-width: 1200px;
   margin: 0 auto;
 }

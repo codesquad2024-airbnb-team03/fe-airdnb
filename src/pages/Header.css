@@ -1,0 +1,15 @@
+/* Add this to your existing CSS file */
+
+.host-mode-switch {
+  cursor: pointer;
+  font-size: 15px;
+  color: #333;
+  margin-left: 20px;
+  margin-right: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.host-mode-switch:hover {
+  text-decoration: underline;
+}
