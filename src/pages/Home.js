@@ -5,10 +5,9 @@ import LoginModal from "../components/LoginModal";
 import RegisterModal from "../components/RegisterModal";
 import Filter from "../components/Filter";
 import Footer from "./Footer";
-import Header from "./Header";
 import Main from "./Main";
 import defaultProfile from "../assets/default-profile.png";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -55,6 +54,10 @@ const Home = () => {
     localStorage.removeItem("jwtToken");
     setUser(null);
     setShowMenu(false);
+  };
+
+  const handleHostModeClick = () => {
+    navigate("/hosting");
   };
 
   useEffect(() => {
@@ -104,20 +107,28 @@ const Home = () => {
     const capacity = adults + children + infants;
 
     try {
-      const response = await axios.get("http://localhost:8080/accommodations/filter", {
-        params: {
-          checkIn: filters.checkIn,
-          checkOut: filters.checkOut,
-          minPrice: filters.minPrice,
-          maxPrice: filters.maxPrice,
-          capacity: capacity,
-          currentLatitude: location.latitude,
-          currentLongitude: location.longitude,
-        },
-      });
+      const response = await axios.get(
+        "http://localhost:8080/accommodations/filter",
+        {
+          params: {
+            checkIn: filters.checkIn,
+            checkOut: filters.checkOut,
+            minPrice: filters.minPrice,
+            maxPrice: filters.maxPrice,
+            capacity: capacity,
+            currentLatitude: location.latitude,
+            currentLongitude: location.longitude,
+          },
+        }
+      );
 
       if (response.data.length > 0) {
-        navigate('/filteredResults', { state: { accommodations: response.data, filters: { ...filters, capacity } } });
+        navigate("/filteredResults", {
+          state: {
+            accommodations: response.data,
+            filters: { ...filters, capacity },
+          },
+        });
       } else {
         alert("검색 결과가 없습니다.");
       }
@@ -128,7 +139,43 @@ const Home = () => {
 
   return (
     <div>
-      <Header />
+      <header className="header">
+        <div
+          className="nav-logo"
+          style={{ fontSize: 30, alignItems: "center" }}
+        >
+          <a href="/">Airdnb</a>
+        </div>
+        <nav className="navigation">
+          <ul>
+            <li>숙소</li>
+            <li>체험</li>
+            <li>온라인 체험</li>
+          </ul>
+        </nav>
+        <div className="profile-container">
+          <div className="host-mode-switch" onClick={handleHostModeClick}>
+            호스트 모드로 전환
+          </div>
+          {user && <span className="user-name">{user.name}님</span>}
+          <div
+            className="nav-tab-container"
+            onClick={handleProfileClick}
+            ref={profileRef}
+          >
+            <div className="hamburger-menu">
+              <div className="bar"></div>
+              <div className="bar"></div>
+              <div className="bar"></div>
+            </div>
+            <img
+              src={user?.profileImg || defaultProfile}
+              alt="Profile"
+              className="profile-image"
+            />
+          </div>
+        </div>
+      </header>
       <main className="content-main">
         <Filter applyFilters={applyFilters} />
         <Main />
