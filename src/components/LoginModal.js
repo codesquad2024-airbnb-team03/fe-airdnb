@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./LoginModal.css";
+import API_BASE_URL from "../config"
 
 const LoginModal = ({ closeModal }) => {
   const [username, setUsername] = useState("");
@@ -11,7 +12,7 @@ const LoginModal = ({ closeModal }) => {
     event.preventDefault();
     setError(""); // Clear previous error
     try {
-      const response = await axios.post("http://localhost:8080/authenticate", {
+      const response = await axios.post(API_BASE_URL + "/authenticate", {
         name: username,
         password,
       });
@@ -32,7 +33,7 @@ const LoginModal = ({ closeModal }) => {
 
   const handleGithubLogin = () => {
     // GitHub OAuth 로그인 페이지로 리다이렉션
-    window.location.href = "http://localhost:8080/login/oauth/github";
+    window.location.href = API_BASE_URL + "/login/oauth/github";
   };
 
   return (

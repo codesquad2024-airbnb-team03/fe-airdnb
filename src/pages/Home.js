@@ -8,6 +8,7 @@ import Footer from "./Footer";
 import Main from "./Main";
 import defaultProfile from "../assets/default-profile.png";
 import { useNavigate } from "react-router-dom";
+import API_BASE_URL from "../config"
 
 const Home = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -72,7 +73,7 @@ const Home = () => {
       const token = localStorage.getItem("jwtToken");
       if (token) {
         try {
-          const response = await axios.get("http://localhost:8080/users", {
+          const response = await axios.get(API_BASE_URL + "/users", {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -107,8 +108,7 @@ const Home = () => {
     const capacity = adults + children + infants;
 
     try {
-      const response = await axios.get(
-        "http://localhost:8080/accommodations/filter",
+      const response = await axios.get(API_BASE_URL + "/accommodations/filter",
         {
           params: {
             checkIn: filters.checkIn,
