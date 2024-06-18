@@ -7,15 +7,19 @@ import Filter from "../components/Filter";
 import Footer from "./Footer";
 import Header from "./Header";
 import Main from "./Main";
+import defaultProfile from "../assets/default-profile.png";
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [user, setUser] = useState(null);
+  const [location, setLocation] = useState({ latitude: null, longitude: null });
 
   const menuRef = useRef(null);
   const profileRef = useRef(null);
+  const navigate = useNavigate();
 
   const handleProfileClick = () => {
     setShowMenu(!showMenu);
@@ -79,9 +83,47 @@ const Home = () => {
     fetchUserProfile();
   }, []);
 
-  const applyFilters = (filters) => {
-    console.log("Applied filters:", filters);
-    // 필터 적용 로직 추가
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setLocation({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          });
+        },
+        (error) => {
+          console.error("Error fetching location:", error);
+        }
+      );
+    }
+  }, []);
+
+  const applyFilters = async (filters) => {
+    const { adults, children, infants } = filters.travelerCount;
+    const capacity = adults + children + infants;
+
+    try {
+      const response = await axios.get("http://localhost:8080/accommodations/filter", {
+        params: {
+          checkIn: filters.checkIn,
+          checkOut: filters.checkOut,
+          minPrice: filters.minPrice,
+          maxPrice: filters.maxPrice,
+          capacity: capacity,
+          currentLatitude: location.latitude,
+          currentLongitude: location.longitude,
+        },
+      });
+
+      if (response.data.length > 0) {
+        navigate('/filteredResults', { state: { accommodations: response.data, filters: { ...filters, capacity } } });
+      } else {
+        alert("검색 결과가 없습니다.");
+      }
+    } catch (error) {
+      console.error("Error applying filters:", error);
+    }
   };
 
   return (
