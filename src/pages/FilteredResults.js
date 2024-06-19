@@ -9,10 +9,11 @@ const FilteredResults = () => {
   const location = useLocation();
   const { filters, accommodations: initialAccommodations } = location.state;
   const [accommodations, setAccommodations] = useState(initialAccommodations);
-  const [currentPosition, setCurrentPosition] = useState({
-    latitude: null,
-    longitude: null
-  });
+
+    // <사용자의 현재 위치 조회, HTTPS에서만 가능>
+  // const [currentPosition, setCurrentPosition] = useState({latitude: null, longitude: null});
+  const [currentPosition, setCurrentPosition] = useState({ latitude: 37.49082415564897, longitude: 127.03344781702127 }); // <수정>: 위치를 특정 위도와 경도로 설정
+
 
   const debouncedPosition = useDebounce(currentPosition, 500); // 500ms 디바운스 적용
 
@@ -35,20 +36,21 @@ const FilteredResults = () => {
     }
   }, [filters]);
 
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setCurrentPosition({ latitude, longitude });
-          fetchFilteredAccommodations(latitude, longitude);
-        },
-        (error) => {
-          console.error("Error fetching location:", error);
-        }
-      );
-    }
-  }, [fetchFilteredAccommodations]);
+    // <사용자의 현재 위치 조회, HTTPS에서만 가능>
+  // useEffect(() => {
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition(
+  //       (position) => {
+  //         const { latitude, longitude } = position.coords;
+  //         setCurrentPosition({ latitude, longitude });
+  //         fetchFilteredAccommodations(latitude, longitude);
+  //       },
+  //       (error) => {
+  //         console.error("Error fetching location:", error);
+  //       }
+  //     );
+  //   }
+  // }, [fetchFilteredAccommodations]);
 
   useEffect(() => {
     if (debouncedPosition.latitude && debouncedPosition.longitude) {
