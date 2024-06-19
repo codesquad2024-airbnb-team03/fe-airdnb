@@ -66,6 +66,9 @@ const FilteredResults = () => {
       document.head.appendChild(script);
 
       script.onload = () => {
+        // 쿠키 설정 추가
+        document.cookie = "name=value; SameSite=None; Secure";
+        
         window.kakao.maps.load(() => {
           const mapContainer = document.getElementById('map');
           const mapOption = {
