@@ -13,7 +13,7 @@ const FilteredResults = () => {
     // <사용자의 현재 위치 조회, HTTPS에서만 가능>
   // const [currentPosition, setCurrentPosition] = useState({latitude: null, longitude: null});
   const [currentPosition, setCurrentPosition] = useState({ latitude: 37.49082415564897, longitude: 127.03344781702127 }); // <수정>: 위치를 특정 위도와 경도로 설정
-
+  const [mapLevel, setMapLevel] = useState(5); // 지도 레벨 상태 추가
 
   const debouncedPosition = useDebounce(currentPosition, 500); // 500ms 디바운스 적용
 
@@ -66,14 +66,11 @@ const FilteredResults = () => {
       document.head.appendChild(script);
 
       script.onload = () => {
-        // 쿠키 설정 추가
-        document.cookie = "name=value; SameSite=None; Secure";
-        
         window.kakao.maps.load(() => {
           const mapContainer = document.getElementById('map');
           const mapOption = {
             center: new window.kakao.maps.LatLng(currentPosition.latitude, currentPosition.longitude),
-            level: 5
+            level: mapLevel
           };
           const map = new window.kakao.maps.Map(mapContainer, mapOption);
 
@@ -107,6 +104,11 @@ const FilteredResults = () => {
             const longitude = latlng.getLng();
             setCurrentPosition({ latitude, longitude });
           });
+
+          window.kakao.maps.event.addListener(map, 'zoom_changed', () => {
+            const level = map.getLevel();
+            setMapLevel(level); // 현재 지도 레벨을 상태에 저장
+          });
         });
       };
 
@@ -114,7 +116,7 @@ const FilteredResults = () => {
         document.head.removeChild(script);
       };
     }
-  }, [currentPosition, accommodations]);
+  }, [currentPosition, accommodations, mapLevel]);
 
   return (
     <div className="filtered-results">
