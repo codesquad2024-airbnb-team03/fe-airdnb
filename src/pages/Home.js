@@ -15,7 +15,10 @@ const Home = () => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [user, setUser] = useState(null);
-  const [location, setLocation] = useState({ latitude: null, longitude: null });
+
+  // <사용자의 현재 위치 조회, HTTPS에서만 가능>
+  //const [location, setLocation] = useState({ latitude: null, longitude: null });
+  const [location, setLocation] = useState({ latitude: 37.49082415564897, longitude: 127.03344781702127 }); // <수정>: 위치를 특정 위도와 경도로 설정
 
   const menuRef = useRef(null);
   const profileRef = useRef(null);
@@ -87,21 +90,22 @@ const Home = () => {
     fetchUserProfile();
   }, []);
 
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setLocation({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          });
-        },
-        (error) => {
-          console.error("Error fetching location:", error);
-        }
-      );
-    }
-  }, []);
+    // <사용자의 현재 위치 조회, HTTPS에서만 가능>
+  // useEffect(() => {
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition(
+  //       (position) => {
+  //         setLocation({
+  //           latitude: position.coords.latitude,
+  //           longitude: position.coords.longitude,
+  //         });
+  //       },
+  //       (error) => {
+  //         console.error("Error fetching location:", error);
+  //       }
+  //     );
+  //   }
+  // }, []);
 
   const applyFilters = async (filters) => {
     const { adults, children, infants } = filters.travelerCount;
