@@ -1,12 +1,18 @@
 import React, { useState } from "react";
 import "./HostPage.css";
 import axios from "axios";
+import API_BASE_URL from "../config";
 
 const HostPage = () => {
   const [form, setForm] = useState({
     name: "",
-    address: "",
-    guestCount: 1,
+    profileImg: "",
+    address: {
+      firstAddress: "",
+      secondAddress: "",
+      thirdAddress: "",
+    },
+    maxHeadCount: 1,
     bedroomCount: 1,
     bedCount: 1,
     bathroomCount: 1,
@@ -19,25 +25,9 @@ const HostPage = () => {
     },
     photos: [],
     price: "",
+    longitude: 0,
+    latitude: 0,
   });
-
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    if (type === "checkbox") {
-      setForm({
-        ...form,
-        amenities: {
-          ...form.amenities,
-          [name]: checked,
-        },
-      });
-    } else {
-      setForm({
-        ...form,
-        [name]: value,
-      });
-    }
-  };
 
   const handlePhotoUpload = (e) => {
     const files = Array.from(e.target.files);
@@ -47,29 +37,79 @@ const HostPage = () => {
     });
   };
 
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    if (type === "checkbox") {
+      setForm((prevForm) => ({
+        ...prevForm,
+        amenities: {
+          ...prevForm.amenities,
+          [name]: checked,
+        },
+      }));
+    } else if (form.address.hasOwnProperty(name)) {
+      setForm((prevForm) => ({
+        ...prevForm,
+        address: {
+          ...prevForm.address,
+          [name]: value,
+        },
+      }));
+    } else {
+      setForm((prevForm) => ({
+        ...prevForm,
+        [name]: value,
+      }));
+    }
+  };
+
   const handleSubmit = async (e) => {
-    e.preventDefault(); // 폼이 제출될 때 브라우저가 페이지를 새로고침하는 기본 동작을 방지
+    e.preventDefault();
+
+    // Convert amenities to amenityIds
+    const amenityIds = Object.keys(form.amenities)
+      .filter((key) => form.amenities[key])
+      .map((key) => {
+        switch (key) {
+          case "wifi":
+            return 1;
+          case "tv":
+            return 2;
+          case "kitchen":
+            return 3;
+          case "washer":
+            return 4;
+          case "parking":
+            return 5;
+          default:
+            return null;
+        }
+      })
+      .filter((id) => id !== null);
+
     const formData = {
-      // 폼에 입력된 데이터를 formData 객체에 저장
       ...form,
-      photos: form.photos.map((photo) => photo.name), // 파일 이름만 전송
+      hostId: 1, // 고정된 호스트 ID
+      amenityIds,
+      photos: form.photos.map((photo) => photo.name), // Assuming photo name is sufficient
     };
 
-     try {
-       const response = await axios.post(
-         "http://localhost:8080/accommodations",
-         formData,
-         {
-           headers: {
-             "Content-Type": "multipart/form-data",
-           },
-         }
-       );
-       console.log("Form submitted successfully:", response.data);
-       // 필요한 경우, 폼 제출 후 추가 동작 수행
-     } catch (error) {
-       console.error("Error submitting form:", error);
-     }
+    try {
+      const token = localStorage.getItem("jwtToken");
+      const response = await axios.post(
+        API_BASE_URL + "/accommodations",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("Form submitted successfully:", response.data);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
   };
 
   return (
@@ -90,18 +130,35 @@ const HostPage = () => {
           숙소 주소:
           <input
             type="text"
-            name="address"
-            value={form.address}
+            name="firstAddress"
+            value={form.address.firstAddress}
             onChange={handleChange}
+            placeholder="도/(특별)광역시"
+            required
+          />
+          <input
+            type="text"
+            name="secondAddress"
+            value={form.address.secondAddress}
+            onChange={handleChange}
+            placeholder="시/군/구"
+            required
+          />
+          <input
+            type="text"
+            name="thirdAddress"
+            value={form.address.thirdAddress}
+            onChange={handleChange}
+            placeholder="도로명 주소"
             required
           />
         </label>
         <label>
-          게스트 수:
+          최대 게스트 수:
           <input
             type="number"
-            name="guestCount"
-            value={form.guestCount}
+            name="maxHeadCount"
+            value={form.maxHeadCount}
             onChange={handleChange}
             min="1"
             required
