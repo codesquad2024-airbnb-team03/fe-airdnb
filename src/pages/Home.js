@@ -159,7 +159,7 @@ const Home = () => {
         </nav>
         <div className="profile-container">
           <div className="host-mode-switch" onClick={handleHostModeClick}>
-            호스트 모드로 전환
+            호스트 페이지
           </div>
           {user && <span className="user-name">{user.name}님</span>}
           <div

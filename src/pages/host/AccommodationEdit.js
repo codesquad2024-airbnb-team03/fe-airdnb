@@ -1,9 +1,8 @@
-import React, { useState } from "react";
-import "./HostPage.css";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import API_BASE_URL from "../config";
+import API_BASE_URL from "../../config";
 
-const HostPage = () => {
+const AccommodationEdit = ({ accommodationId, onBack }) => {
   const [form, setForm] = useState({
     name: "",
     profileImg: "",
@@ -23,17 +22,49 @@ const HostPage = () => {
       washer: false,
       parking: false,
     },
-    photos: [],
+    photo: null, // 단일 파일로 변경
     price: "",
     longitude: 0,
     latitude: 0,
   });
 
+  useEffect(() => {
+    const fetchAccommodation = async () => {
+      try {
+        const token = localStorage.getItem("jwtToken");
+        const response = await axios.get(
+          `${API_BASE_URL}/accommodations/${accommodationId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const accommodation = response.data;
+        setForm({
+          ...accommodation,
+          amenities: {
+            wifi: accommodation.amenities.includes(1),
+            tv: accommodation.amenities.includes(2),
+            kitchen: accommodation.amenities.includes(3),
+            washer: accommodation.amenities.includes(4),
+            parking: accommodation.amenities.includes(5),
+          },
+          photo: accommodation.photo, // 단일 파일로 설정
+        });
+      } catch (error) {
+        console.error("Error fetching accommodation:", error);
+      }
+    };
+
+    fetchAccommodation();
+  }, [accommodationId]);
+
   const handlePhotoUpload = (e) => {
-    const files = Array.from(e.target.files);
+    const file = e.target.files[0];
     setForm({
       ...form,
-      photos: files,
+      photo: file,
     });
   };
 
@@ -66,7 +97,6 @@ const HostPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Convert amenities to amenityIds
     const amenityIds = Object.keys(form.amenities)
       .filter((key) => form.amenities[key])
       .map((key) => {
@@ -88,16 +118,27 @@ const HostPage = () => {
       .filter((id) => id !== null);
 
     const formData = {
-      ...form,
+      id: accommodationId, // accommodationId 추가
+      name: form.name,
+      profileImg: form.photo, // 단일 파일 처리
+      address: {
+        firstAddress: form.address.firstAddress,
+        secondAddress: form.address.secondAddress,
+        thirdAddress: form.address.thirdAddress,
+      },
+      price: form.price,
+      maxHeadCount: form.maxHeadCount,
+      bedCount: form.bedCount,
+      bedroomCount: form.bedroomCount,
+      bathroomCount: form.bathroomCount,
       hostId: 1, // 고정된 호스트 ID
       amenityIds,
-      photos: form.photos.map((photo) => photo.name), // Assuming photo name is sufficient
     };
 
     try {
       const token = localStorage.getItem("jwtToken");
-      const response = await axios.post(
-        API_BASE_URL + "/accommodations",
+      const response = await axios.put(
+        `${API_BASE_URL}/accommodations`,
         formData,
         {
           headers: {
@@ -106,15 +147,21 @@ const HostPage = () => {
           },
         }
       );
-      console.log("Form submitted successfully:", response.data);
+      console.log("Form updated successfully:", response.data);
+      onBack();
     } catch (error) {
-      console.error("Error submitting form:", error);
+      console.error("Error updating form:", error);
+      if (error.response) {
+        console.error("Response data:", error.response.data);
+        console.error("Response status:", error.response.status);
+        console.error("Response headers:", error.response.headers);
+      }
     }
   };
 
   return (
     <div className="accommodation-form-container">
-      <h2>숙소 등록</h2>
+      <h2>숙소 수정</h2>
       <form onSubmit={handleSubmit}>
         <label>
           숙소 이름:
@@ -268,10 +315,10 @@ const HostPage = () => {
             required
           />
         </label>
-        <button type="submit">등록</button>
+        <button type="submit">수정</button>
       </form>
     </div>
   );
 };
 
-export default HostPage;
+export default AccommodationEdit;
