@@ -40,8 +40,8 @@ const Filter = ({ applyFilters }) => {
     if (ref.current) {
       const rect = ref.current.getBoundingClientRect();
       return {
-        top: `${rect.bottom + window.scrollY - 100}px`,
-        left: `${rect.left + window.scrollX - 50}px`,
+        top: `${rect.bottom + window.scrollY - 140}px`,
+        left: `${rect.left + window.scrollX - 190}px`,
         width: `${rect.width}px`,
       };
     }

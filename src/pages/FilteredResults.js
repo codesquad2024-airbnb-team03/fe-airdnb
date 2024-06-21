@@ -1,21 +1,22 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
-import './FilteredResults.css';  // CSS 파일 임포트
-import useDebounce from '../hooks/useDebounce';  // useDebounce 훅 임포트
-import API_BASE_URL from "../config"
+import './FilteredResults.css';
+import useDebounce from '../hooks/useDebounce';
+import ReservationModal from '../components/ReservationModal';
+import LoginModal from '../components/LoginModal';
+import API_BASE_URL from "../config";
 
 const FilteredResults = () => {
   const location = useLocation();
   const { filters, accommodations: initialAccommodations } = location.state;
   const [accommodations, setAccommodations] = useState(initialAccommodations);
-
-    // <사용자의 현재 위치 조회, HTTPS에서만 가능>
-  // const [currentPosition, setCurrentPosition] = useState({latitude: null, longitude: null});
-  const [currentPosition, setCurrentPosition] = useState({ latitude: 37.49082415564897, longitude: 127.03344781702127 }); // <수정>: 위치를 특정 위도와 경도로 설정
-  const [mapLevel, setMapLevel] = useState(5); // 지도 레벨 상태 추가
-
-  const debouncedPosition = useDebounce(currentPosition, 500); // 500ms 디바운스 적용
+  const [currentPosition, setCurrentPosition] = useState({ latitude: 37.49082415564897, longitude: 127.03344781702127 });
+  const [mapLevel, setMapLevel] = useState(5);
+  const [selectedAccommodation, setSelectedAccommodation] = useState(null);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [user, setUser] = useState(null);
+  const debouncedPosition = useDebounce(currentPosition, 500);
 
   const fetchFilteredAccommodations = useCallback(async (latitude, longitude) => {
     try {
@@ -35,22 +36,6 @@ const FilteredResults = () => {
       console.error("Failed to fetch filtered accommodations:", error);
     }
   }, [filters]);
-
-    // <사용자의 현재 위치 조회, HTTPS에서만 가능>
-  // useEffect(() => {
-  //   if (navigator.geolocation) {
-  //     navigator.geolocation.getCurrentPosition(
-  //       (position) => {
-  //         const { latitude, longitude } = position.coords;
-  //         setCurrentPosition({ latitude, longitude });
-  //         fetchFilteredAccommodations(latitude, longitude);
-  //       },
-  //       (error) => {
-  //         console.error("Error fetching location:", error);
-  //       }
-  //     );
-  //   }
-  // }, [fetchFilteredAccommodations]);
 
   useEffect(() => {
     if (debouncedPosition.latitude && debouncedPosition.longitude) {
@@ -84,17 +69,12 @@ const FilteredResults = () => {
 
             const overlayContent = document.createElement('div');
             overlayContent.className = 'customoverlay';
-            overlayContent.innerHTML = `
-              <h4>${acc.name}</h4>
-              <p>${acc.price.toLocaleString()}원</p>
-            `;
-
+            overlayContent.innerHTML = `<h4>${acc.name}</h4><p>${acc.price.toLocaleString()}원</p>`;
             const customOverlay = new window.kakao.maps.CustomOverlay({
               position: markerPosition,
               content: overlayContent,
               yAnchor: 1
             });
-
             customOverlay.setMap(map);
           });
 
@@ -107,7 +87,7 @@ const FilteredResults = () => {
 
           window.kakao.maps.event.addListener(map, 'zoom_changed', () => {
             const level = map.getLevel();
-            setMapLevel(level); // 현재 지도 레벨을 상태에 저장
+            setMapLevel(level);
           });
         });
       };
@@ -118,11 +98,51 @@ const FilteredResults = () => {
     }
   }, [currentPosition, accommodations, mapLevel]);
 
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      const token = localStorage.getItem("jwtToken");
+      if (token) {
+        try {
+          const response = await axios.get(API_BASE_URL + "/users", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          setUser(response.data);
+        } catch (error) {
+          console.error("Failed to fetch user profile:", error);
+        }
+      }
+    };
+    fetchUserProfile();
+  }, []);
+
+  const openReservationModal = (accommodation) => {
+    if (!user) {
+      setShowLoginModal(true);
+    } else {
+      setSelectedAccommodation({
+        ...accommodation,
+        initialGuestCount: filters.capacity,
+        initialCheckIn: filters.checkIn,
+        initialCheckOut: filters.checkOut
+      });
+    }
+  };
+
+  const closeReservationModal = () => {
+    setSelectedAccommodation(null);
+  };
+
+  const closeLoginModal = () => {
+    setShowLoginModal(false);
+  };
+
   return (
     <div className="filtered-results">
       <div className="accommodation-list">
         <div className="filter-summary">
-          <span>{filters.checkIn}<br></br>{filters.checkOut}</span>
+          <span>{filters.checkIn}<br />{filters.checkOut}</span>
           <span>|</span>
           <span>{filters.minPrice.toLocaleString()}원 - {filters.maxPrice.toLocaleString()}원</span>
           <span>|</span>
@@ -130,7 +150,7 @@ const FilteredResults = () => {
         </div>
         <ul>
           {accommodations.map((acc) => (
-            <li key={acc.id} className="accommodation-item">
+            <li key={acc.id} className="accommodation-item" onClick={() => openReservationModal(acc)}>
               <img src={acc.profileImg} alt={acc.name} />
               <div className="accommodation-details">
                 <h3>{acc.name}</h3>
@@ -154,6 +174,14 @@ const FilteredResults = () => {
           <p>현재 위치를 가져오는 중...</p>
         )}
       </div>
+      {selectedAccommodation && (
+        <ReservationModal
+          accommodation={selectedAccommodation}
+          closeModal={closeReservationModal}
+          user={user}
+        />
+      )}
+      {showLoginModal && <LoginModal closeModal={closeLoginModal} />}
     </div>
   );
 };
