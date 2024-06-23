@@ -1,65 +1,91 @@
 .filter-bar {
+  position: fixed;
+  top: 6rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 35px;
   display: flex;
-  justify-content: center;
   align-items: center;
-  padding: 10px; /* 간격을 넓힘 */
-  background-color: rgb(235, 235, 235);
-  border-radius: 50px;
-  margin-top: 50px;
-  margin-bottom: 20px;
-  margin-left: 150px;
-  margin-right: 150px;
-  position: relative; /* 자식 모달 위치를 위해 relative 설정 */
-  border: 1px solid #ccc; /* 테두리 추가 */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+  justify-content: space-between;
+  width: fit-content;
+  max-width: 64rem;
+  z-index: 10;
+  padding: 0.3rem 1rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.filter-bar.scrolled {
+  top: 1rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 20px;
 }
 
 .filter-item {
-  margin: 0 25px; /* 항목 간 간격을 넓힘 */
+  padding: 0.5rem 1rem;
+  text-align: center;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-  position: relative; /* 모달 창 위치를 절대 위치로 설정하기 위해 relative 설정 */
+  justify-content: center;
+  flex: 1; /* Flex 속성을 사용하여 고정된 크기 설정 */
+  min-width: 190px;
+  transition: all 0.3s ease-in-out;
+}
+
+.filter-bar.scrolled .filter-item {
+  padding: 0.3rem 0.5rem;
+  min-width: 150px;
+}
+
+.filter-item:not(:last-of-type) {
+  border-right: 1px solid #e5e7eb;
 }
 
 .filter-label {
-  font-size: 16px;
-  font-weight: bold;
-  color: #333; /* 구별되게 스타일링 */
-  margin-bottom: 5px;
-  align-items: center;
+  font-size: 0.80rem;
+  font-weight: 600;
+  color: #4b5563;
+  margin-bottom: 0.25rem;
 }
 
-.filter-span {
-  padding: 5px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  width: 170px; /* 너비를 적절히 조정 */
-  text-align: center;
-  background-color: white;
+.filter-bar.scrolled .filter-label {
+  font-size: 0.875rem;
+  font-weight: 600;
 }
 
-.date-picker {
-  padding: 5px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  width: 100px; /* 너비를 적절히 조정 */
+.filter-value {
+  font-size: 0.875rem;
+  color: #5e5e5e;
 }
 
 .filter-search-button {
-  background-color: #ff385c;
+  background-color: #ef4444;
   color: white;
+  border-radius: 30px;
+  padding: 0.5rem 1rem;
   border: none;
-  padding: 15px 20px;
-  border-radius: 25px;
   cursor: pointer;
-  margin-left: 20px; /* 간격을 넓힘 */
-  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 70px;
+  margin-left: 15px;
+  transition: all 0.3s ease-in-out;
+}
+
+.filter-bar.scrolled .filter-search-button {
+  padding: 0.3rem 0.5rem;
+  min-width: 50px;
+  cursor: not-allowed;
 }
 
 .filter-search-button:hover {
-  background-color: #e7304d;
+  background-color: #dc2626;
 }
 
 .traveler-filter-modal,
@@ -69,6 +95,6 @@
   border: 1px solid #ccc;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
   z-index: 1000;
+  padding: 1rem;
 }

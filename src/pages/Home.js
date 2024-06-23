@@ -90,7 +90,7 @@ const Home = () => {
     fetchUserProfile();
   }, []);
 
-    // <사용자의 현재 위치 조회, HTTPS에서만 가능>
+  // <사용자의 현재 위치 조회, HTTPS에서만 가능>
   // useEffect(() => {
   //   if (navigator.geolocation) {
   //     navigator.geolocation.getCurrentPosition(
@@ -180,6 +180,7 @@ const Home = () => {
           </div>
         </div>
       </header>
+      <div className="background-image-container" />
       <main className="content-main">
         <Filter applyFilters={applyFilters} />
         <Main />
