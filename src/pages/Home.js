@@ -1,3 +1,5 @@
+// Home.js
+
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./Home.css";
@@ -8,17 +10,14 @@ import Footer from "./Footer";
 import Main from "./Main";
 import defaultProfile from "../assets/default-profile.png";
 import { useNavigate } from "react-router-dom";
-import API_BASE_URL from "../config"
+import API_BASE_URL from "../config";
 
 const Home = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [user, setUser] = useState(null);
-
-  // <사용자의 현재 위치 조회, HTTPS에서만 가능>
-  //const [location, setLocation] = useState({ latitude: null, longitude: null });
-  const [location, setLocation] = useState({ latitude: 37.49082415564897, longitude: 127.03344781702127 }); // <수정>: 위치를 특정 위도와 경도로 설정
+  const [location, setLocation] = useState({ latitude: 37.49082415564897, longitude: 127.03344781702127 });
 
   const menuRef = useRef(null);
   const profileRef = useRef(null);
@@ -61,7 +60,7 @@ const Home = () => {
   };
 
   const handleHostModeClick = () => {
-    navigate("/hosting");
+    navigate("/hosting", { state: { user } });
   };
 
   useEffect(() => {
@@ -158,10 +157,6 @@ const Home = () => {
           </ul>
         </nav>
         <div className="profile-container">
-          <div className="host-mode-switch" onClick={handleHostModeClick}>
-            호스트 페이지
-          </div>
-          {user && <span className="user-name">{user.name}님</span>}
           <div
             className="nav-tab-container"
             onClick={handleProfileClick}
@@ -203,9 +198,14 @@ const Home = () => {
           }}
         >
           {user ? (
-            <button className="menu-button" onClick={handleLogout}>
-              로그아웃
-            </button>
+            <>
+              <button className="menu-button" onClick={handleHostModeClick}>
+                호스트 페이지
+              </button>
+              <button className="menu-button" onClick={handleLogout}>
+                로그아웃
+              </button>
+            </>
           ) : (
             <>
               <button className="menu-button" onClick={openLoginModal}>
