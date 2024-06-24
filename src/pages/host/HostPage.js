@@ -1,5 +1,7 @@
+// HostPage.js
+
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import AccommodationForm from "./AccommodationForm";
 import AccommodationList from "./AccommodationList";
 import AccommodationEdit from "./AccommodationEdit";
@@ -9,6 +11,8 @@ const HostPage = () => {
   const [currentTab, setCurrentTab] = useState("list");
   const [editingAccommodationId, setEditingAccommodationId] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
+  const user = location.state?.user;
 
   const handleTabChange = (tab) => {
     if (tab === "edit" && editingAccommodationId === null) {
@@ -57,7 +61,7 @@ const HostPage = () => {
         </div>
       </nav>
       <main>
-        {currentTab === "list" && <AccommodationList onEdit={handleEdit} />}
+        {currentTab === "list" && <AccommodationList onEdit={handleEdit} user={user} />}
         {currentTab === "edit" && editingAccommodationId ? (
           <AccommodationEdit
             accommodationId={editingAccommodationId}
@@ -66,7 +70,7 @@ const HostPage = () => {
         ) : (
           currentTab === "edit" && <div>수정할 숙소를 선택해주세요.</div>
         )}
-        {currentTab === "form" && <AccommodationForm />}
+        {currentTab === "form" && <AccommodationForm user={user} />}
       </main>
     </div>
   );

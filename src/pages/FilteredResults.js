@@ -155,12 +155,12 @@ const FilteredResults = () => {
               <div className="accommodation-details">
                 <h3>{acc.name}</h3>
                 <p>{acc.address.fullAddress}</p>
-                <p>최대 인원: {acc.maxHeadCount}명</p>
-                <p>침대: {acc.bedCount}, 침실: {acc.bedroomCount}, 욕실: {acc.bathroomCount}</p>
-                <p className="accommodation-price">{acc.price.toLocaleString()}원 / 박</p>
+                <p className="accommodation-info">최대 인원: {acc.maxHeadCount}명</p>
+                <p className="accommodation-info">침대: {acc.bedCount}, 침실: {acc.bedroomCount}, 욕실: {acc.bathroomCount}</p>
+                <p className="accommodation-price">₩{acc.price.toLocaleString()} / 박</p>
                 <div className="accommodation-rating">
                   <span>⭐</span>
-                  <span>{acc.averageGrade} ({acc.reviewCount} 리뷰)</span>
+                  <span><span className="grade-info">{acc.averageGrade.toFixed(2)}</span> (리뷰 {acc.reviewCount}개)</span>
                 </div>
               </div>
             </li>

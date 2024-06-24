@@ -62,6 +62,43 @@
   font-size: 16px;
 }
 
+.accommodation-form-container .verification-container {
+  display: flex;
+  align-items: center;
+}
+
+.accommodation-form-container .verify-button {
+  padding: 5px 10px;
+  margin-top: 0px;
+  margin-left: 10px;
+  margin-bottom: 20px;
+  background-color: #ccc;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.accommodation-form-container .verify-button:hover {
+  background-color: #bbb;
+}
+
+.accommodation-form-container .verification-message {
+  margin-bottom: 20px;
+  margin-left: 10px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.accommodation-form-container .verification-message.valid {
+  color: green;
+}
+
+.accommodation-form-container .verification-message.invalid {
+  color: red;
+}
+
 .accommodation-form-container button {
   padding: 15px;
   background-color: #ff5a5f;

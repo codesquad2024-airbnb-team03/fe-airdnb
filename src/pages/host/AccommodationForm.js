@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+// AccommodationForm.js
+
+import React, { useState, useRef } from "react";
 import "./AccommodationForm.css";
 import axios from "axios";
 import API_BASE_URL from "../../config";
 
-const AccommodationForm = () => {
+const AccommodationForm = ({ user }) => {
   const [form, setForm] = useState({
     name: "",
     profileImg: "",
@@ -23,11 +25,15 @@ const AccommodationForm = () => {
       washer: false,
       parking: false,
     },
-    photo: null, // 단일 파일로 변경
+    photo: null,
     price: "",
     longitude: 0,
     latitude: 0,
   });
+
+  const [isAddressVerified, setIsAddressVerified] = useState(false);
+  const [addressVerificationMessage, setAddressVerificationMessage] = useState("");
+  const addressRef = useRef(null);  // 주소 입력 요소에 대한 ref
 
   const handlePhotoUpload = (e) => {
     const file = e.target.files[0];
@@ -61,12 +67,55 @@ const AccommodationForm = () => {
         [name]: value,
       }));
     }
+    setIsAddressVerified(false); // 주소 변경 시 검증 상태 초기화
+    setAddressVerificationMessage(""); // 메시지 초기화
+  };
+
+  const verifyAddress = async () => {
+    const fullAddress = `${form.address.firstAddress} ${form.address.secondAddress} ${form.address.thirdAddress}`;
+    try {
+      const token = localStorage.getItem("jwtToken");
+      const response = await axios.get(`${API_BASE_URL}/kakaoMap`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: { address: fullAddress },
+      });
+      if (response.status === 200) {
+        setIsAddressVerified(true);
+        setAddressVerificationMessage("주소 검증이 완료되었습니다.");
+      } else if (response.status === 404) {
+        setIsAddressVerified(false);
+        setAddressVerificationMessage("유효한 주소가 아닙니다. 다시 확인해주세요.");
+      }
+    } catch (error) {
+      setIsAddressVerified(false);
+      setAddressVerificationMessage("주소 검증 중 오류가 발생했습니다.");
+      console.error("Error verifying address:", error);
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!isAddressVerified) {
+      alert("주소 검증을 먼저 완료해주세요.");
+      addressRef.current.scrollIntoView({ behavior: "smooth" });  // 스크롤 이동
+      return;
+    }
 
-    // Convert amenities to amenityIds
+    // Check if all required fields are filled
+    if (
+      form.name.trim() === "" ||
+      form.price.trim() === "" ||
+      form.maxHeadCount <= 0 ||
+      form.bedroomCount <= 0 ||
+      form.bedCount <= 0 ||
+      form.bathroomCount <= 0
+    ) {
+      alert("모든 필수 항목을 채워주세요.");
+      return;
+    }
+
     const amenityIds = Object.keys(form.amenities)
       .filter((key) => form.amenities[key])
       .map((key) => {
@@ -89,7 +138,7 @@ const AccommodationForm = () => {
 
     const formData = {
       ...form,
-      hostId: 1, // 고정된 호스트 ID
+      hostId: user.id,
       amenityIds,
       photos: form.photo,
     };
@@ -106,6 +155,7 @@ const AccommodationForm = () => {
           },
         }
       );
+      alert("숙소가 등록되었습니다.");  // 성공 알림창
       console.log("Form submitted successfully:", response.data);
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -126,7 +176,7 @@ const AccommodationForm = () => {
             required
           />
         </label>
-        <label>
+        <label ref={addressRef}>
           숙소 주소:
           <input
             type="text"
@@ -152,6 +202,24 @@ const AccommodationForm = () => {
             placeholder="도로명 주소"
             required
           />
+          <div className="verification-container">
+            <button
+              type="button"
+              className="verify-button"
+              onClick={verifyAddress}
+            >
+              주소 검증
+            </button>
+            {addressVerificationMessage && (
+              <span
+                className={`verification-message ${
+                  isAddressVerified ? "valid" : "invalid"
+                }`}
+              >
+                {addressVerificationMessage}
+              </span>
+            )}
+          </div>
         </label>
         <label>
           최대 게스트 수:
@@ -268,7 +336,9 @@ const AccommodationForm = () => {
             required
           />
         </label>
-        <button type="submit">등록</button>
+        <button type="submit">
+          등록
+        </button>
       </form>
     </div>
   );

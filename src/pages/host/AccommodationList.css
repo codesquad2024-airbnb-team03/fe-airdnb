@@ -1,0 +1,96 @@
+/* AccommodationList.css */
+
+.accommodation-list-container {
+    padding: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    background-color: #fff;
+  }
+  
+  .accommodation-list-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .accommodation-list-container ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  
+  .accommodation-item {
+    display: flex;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    padding: 10px;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .accommodation-item img {
+    width: 200px;
+    height: 160px;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+  
+  .accommodation-details {
+    margin-left: 16px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .accommodation-details h3 {
+    margin: 0;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .accommodation-details p {
+    color: #555;
+  }
+  
+  .accommodation-info {
+    font-size: 13px;
+    margin-top: 2px;
+    margin-bottom: 0px;
+  }
+  
+  .accommodation-price {
+    font-size: 14px;
+    font-weight: bold;
+    color: #000;
+    margin-top: 10px;
+    text-align: right;
+  }
+  
+  .edit-button-container {
+    width: 100px;
+    margin-left: 10px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+  }
+  
+  .edit-button {
+    width: 70px;
+    height: 50px;
+    margin-right: 7px;
+    padding: 10px 20px;
+    background-color: #aeaeae;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .edit-button:hover {
+    background-color: #0056b3;
+  }
+  
