@@ -72,28 +72,30 @@ const AccommodationForm = ({ user }) => {
   };
 
   const verifyAddress = async () => {
-    const fullAddress = `${form.address.firstAddress} ${form.address.secondAddress} ${form.address.thirdAddress}`;
-    try {
-      const token = localStorage.getItem("jwtToken");
-      const response = await axios.get(`${API_BASE_URL}/kakaoMap`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: { address: fullAddress },
-      });
-      if (response.status === 200) {
-        setIsAddressVerified(true);
-        setAddressVerificationMessage("주소 검증이 완료되었습니다.");
-      } else if (response.status === 404) {
-        setIsAddressVerified(false);
-        setAddressVerificationMessage("유효한 주소가 아닙니다. 다시 확인해주세요.");
-      }
-    } catch (error) {
+  const fullAddress = `${form.address.firstAddress} ${form.address.secondAddress} ${form.address.thirdAddress}`;
+  try {
+    const token = localStorage.getItem("jwtToken");
+    const response = await axios.get(`${API_BASE_URL}/kakaoMap`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: { address: fullAddress },
+    });
+    if (response.status === 200) {
+      setIsAddressVerified(true);
+      setAddressVerificationMessage("주소 검증이 완료되었습니다.");
+    }
+  } catch (error) {
+    if (error.response && error.response.status === 404) {
+      setIsAddressVerified(false);
+      setAddressVerificationMessage("유효한 주소가 아닙니다. 다시 확인해주세요.");
+    } else {
       setIsAddressVerified(false);
       setAddressVerificationMessage("주소 검증 중 오류가 발생했습니다.");
       console.error("Error verifying address:", error);
     }
-  };
+  }
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
