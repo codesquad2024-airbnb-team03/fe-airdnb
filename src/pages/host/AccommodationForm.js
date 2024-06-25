@@ -8,7 +8,6 @@ import API_BASE_URL from "../../config";
 const AccommodationForm = ({ user }) => {
   const [form, setForm] = useState({
     name: "",
-    profileImg: "",
     address: {
       firstAddress: "",
       secondAddress: "",
@@ -25,15 +24,13 @@ const AccommodationForm = ({ user }) => {
       washer: false,
       parking: false,
     },
-    photo: null,
+    photo: null, // 단일 파일로 변경
     price: "",
-    longitude: 0,
-    latitude: 0,
   });
 
   const [isAddressVerified, setIsAddressVerified] = useState(false);
   const [addressVerificationMessage, setAddressVerificationMessage] = useState("");
-  const addressRef = useRef(null);  // 주소 입력 요소에 대한 ref
+  const addressRef = useRef(null); // 주소 입력 요소에 대한 ref
 
   const handlePhotoUpload = (e) => {
     const file = e.target.files[0];
@@ -72,36 +69,38 @@ const AccommodationForm = ({ user }) => {
   };
 
   const verifyAddress = async () => {
-  const fullAddress = `${form.address.firstAddress} ${form.address.secondAddress} ${form.address.thirdAddress}`;
-  try {
-    const token = localStorage.getItem("jwtToken");
-    const response = await axios.get(`${API_BASE_URL}/kakaoMap`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      params: { address: fullAddress },
-    });
-    if (response.status === 200) {
-      setIsAddressVerified(true);
-      setAddressVerificationMessage("주소 검증이 완료되었습니다.");
+    const fullAddress = `${form.address.firstAddress} ${form.address.secondAddress} ${form.address.thirdAddress}`;
+    try {
+      const token = localStorage.getItem("jwtToken");
+      const response = await axios.get(`${API_BASE_URL}/kakaoMap`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: { address: fullAddress },
+      });
+      if (response.status === 200) {
+        setIsAddressVerified(true);
+        setAddressVerificationMessage("주소 검증이 완료되었습니다.");
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        setIsAddressVerified(false);
+        setAddressVerificationMessage(
+          "유효한 주소가 아닙니다. 다시 확인해주세요."
+        );
+      } else {
+        setIsAddressVerified(false);
+        setAddressVerificationMessage("주소 검증 중 오류가 발생했습니다.");
+        console.error("Error verifying address:", error);
+      }
     }
-  } catch (error) {
-    if (error.response && error.response.status === 404) {
-      setIsAddressVerified(false);
-      setAddressVerificationMessage("유효한 주소가 아닙니다. 다시 확인해주세요.");
-    } else {
-      setIsAddressVerified(false);
-      setAddressVerificationMessage("주소 검증 중 오류가 발생했습니다.");
-      console.error("Error verifying address:", error);
-    }
-  }
-};
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!isAddressVerified) {
       alert("주소 검증을 먼저 완료해주세요.");
-      addressRef.current.scrollIntoView({ behavior: "smooth" });  // 스크롤 이동
+      addressRef.current.scrollIntoView({ behavior: "smooth" }); // 스크롤 이동
       return;
     }
 
@@ -138,12 +137,25 @@ const AccommodationForm = ({ user }) => {
       })
       .filter((id) => id !== null);
 
-    const formData = {
-      ...form,
+    const saveDto = {
+      name: form.name,
+      address: {
+        firstAddress: form.address.firstAddress,
+        secondAddress: form.address.secondAddress,
+        thirdAddress: form.address.thirdAddress,
+      },
+      maxHeadCount: form.maxHeadCount,
+      bedroomCount: form.bedroomCount,
+      bedCount: form.bedCount,
+      bathroomCount: form.bathroomCount,
+      price: form.price,
       hostId: user.id,
       amenityIds,
-      photos: form.photo,
     };
+
+    const formData = new FormData();
+    formData.append("file", form.photo);
+    formData.append("saveDto", JSON.stringify(saveDto));
 
     try {
       const token = localStorage.getItem("jwtToken");
@@ -153,11 +165,11 @@ const AccommodationForm = ({ user }) => {
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
           },
         }
       );
-      alert("숙소가 등록되었습니다.");  // 성공 알림창
+      alert("숙소가 등록되었습니다."); // 성공 알림창
       console.log("Form submitted successfully:", response.data);
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -323,7 +335,6 @@ const AccommodationForm = ({ user }) => {
             type="file"
             name="photos"
             onChange={handlePhotoUpload}
-            multiple
             accept="image/*"
           />
         </label>
@@ -338,9 +349,7 @@ const AccommodationForm = ({ user }) => {
             required
           />
         </label>
-        <button type="submit">
-          등록
-        </button>
+        <button type="submit">등록</button>
       </form>
     </div>
   );

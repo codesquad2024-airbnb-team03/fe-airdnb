@@ -111,7 +111,8 @@ const Home = () => {
     const capacity = adults + children + infants;
 
     try {
-      const response = await axios.get(API_BASE_URL + "/accommodations/filter",
+      const response = await axios.get(
+        API_BASE_URL + "/accommodations/filter",
         {
           params: {
             checkIn: filters.checkIn,
