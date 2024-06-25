@@ -1,5 +1,3 @@
-// AccommodationForm.js
-
 import React, { useState, useRef } from "react";
 import "./AccommodationForm.css";
 import axios from "axios";
@@ -155,7 +153,7 @@ const AccommodationForm = ({ user }) => {
 
     const formData = new FormData();
     formData.append("file", form.photo);
-    formData.append("saveDto", JSON.stringify(saveDto));
+    formData.append("saveDto", new Blob([JSON.stringify(saveDto)], { type: "application/json" }));
 
     try {
       const token = localStorage.getItem("jwtToken");
