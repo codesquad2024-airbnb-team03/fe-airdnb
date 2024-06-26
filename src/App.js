@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import LoginSuccess from "./pages/LoginSuccess";
 import HostPage from "./pages/host/HostPage";
 import FilteredResults from "./pages/FilteredResults";
+import AccommodationDetail from "./pages/AccommodationDetail"; 
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
         <Route path="/loginSuccess" element={<LoginSuccess />} />
         <Route path="/hosting" element={<HostPage />} />
         <Route path="/filteredResults" element={<FilteredResults />} />
+        <Route path="/accommodation/:accommodationId" element={<AccommodationDetail />} />
       </Routes>
     </Router>
   );

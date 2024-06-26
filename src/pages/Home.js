@@ -8,33 +8,24 @@ import RegisterModal from "../components/RegisterModal";
 import Filter from "../components/Filter";
 import Footer from "./Footer";
 import Main from "./Main";
-import defaultProfile from "../assets/default-profile.png";
+import Header from "../components/Header"; // Header 컴포넌트 불러오기
 import { useNavigate } from "react-router-dom";
 import API_BASE_URL from "../config";
 
 const Home = () => {
-  const [showMenu, setShowMenu] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [user, setUser] = useState(null);
   const [location, setLocation] = useState({ latitude: 37.49082415564897, longitude: 127.03344781702127 });
 
-  const menuRef = useRef(null);
-  const profileRef = useRef(null);
   const navigate = useNavigate();
-
-  const handleProfileClick = () => {
-    setShowMenu(!showMenu);
-  };
 
   const openLoginModal = () => {
     setShowLoginModal(true);
-    setShowMenu(false);
   };
 
   const openRegisterModal = () => {
     setShowRegisterModal(true);
-    setShowMenu(false);
   };
 
   const closeModal = () => {
@@ -42,33 +33,14 @@ const Home = () => {
     setShowRegisterModal(false);
   };
 
-  const handleClickOutside = (event) => {
-    if (
-      menuRef.current &&
-      !menuRef.current.contains(event.target) &&
-      profileRef.current &&
-      !profileRef.current.contains(event.target)
-    ) {
-      setShowMenu(false);
-    }
-  };
-
   const handleLogout = () => {
     localStorage.removeItem("jwtToken");
     setUser(null);
-    setShowMenu(false);
   };
 
   const handleHostModeClick = () => {
     navigate("/hosting", { state: { user } });
   };
-
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -88,23 +60,6 @@ const Home = () => {
     };
     fetchUserProfile();
   }, []);
-
-  // <사용자의 현재 위치 조회, HTTPS에서만 가능>
-  // useEffect(() => {
-  //   if (navigator.geolocation) {
-  //     navigator.geolocation.getCurrentPosition(
-  //       (position) => {
-  //         setLocation({
-  //           latitude: position.coords.latitude,
-  //           longitude: position.coords.longitude,
-  //         });
-  //       },
-  //       (error) => {
-  //         console.error("Error fetching location:", error);
-  //       }
-  //     );
-  //   }
-  // }, []);
 
   const applyFilters = async (filters) => {
     const { adults, children, infants } = filters.travelerCount;
@@ -143,82 +98,19 @@ const Home = () => {
 
   return (
     <div>
-      <header className="header">
-        <div
-          className="nav-logo"
-          style={{ fontSize: 30, alignItems: "center" }}
-        >
-          <a href="/">Airdnb</a>
-        </div>
-        <nav className="navigation">
-          <ul>
-            <li>숙소</li>
-            <li>체험</li>
-            <li>온라인 체험</li>
-          </ul>
-        </nav>
-        <div className="profile-container">
-          <div
-            className="nav-tab-container"
-            onClick={handleProfileClick}
-            ref={profileRef}
-          >
-            <div className="hamburger-menu">
-              <div className="bar"></div>
-              <div className="bar"></div>
-              <div className="bar"></div>
-            </div>
-            <img
-              src={user?.profileImg || defaultProfile}
-              alt="Profile"
-              className="profile-image"
-            />
-          </div>
-        </div>
-      </header>
+      <Header
+        user={user}
+        handleLogout={handleLogout}
+        openLoginModal={openLoginModal}
+        openRegisterModal={openRegisterModal}
+        handleHostModeClick={handleHostModeClick}
+      />
       <div className="background-image-container" />
       <main className="content-main">
         <Filter applyFilters={applyFilters} />
         <Main />
       </main>
       <Footer />
-
-      {showMenu && (
-        <div
-          className="menu-container"
-          ref={menuRef}
-          style={{
-            top:
-              profileRef.current.getBoundingClientRect().bottom +
-              window.scrollY +
-              10,
-            left:
-              profileRef.current.getBoundingClientRect().left +
-              window.scrollX -
-              50,
-          }}
-        >
-          {user ? (
-            <>
-              <button className="menu-button" onClick={handleHostModeClick}>
-                호스트 페이지
-              </button>
-              <button className="menu-button" onClick={handleLogout}>
-                로그아웃
-              </button>
-            </>
-          ) : (
-            <>
-              <button className="menu-button" onClick={openLoginModal}>
-                로그인
-              </button>
-              <button className="menu-button" onClick={openRegisterModal}>
-                회원 가입
-              </button>
-            </>
-          )}
-        </div>
-      )}
 
       {showLoginModal && <LoginModal closeModal={closeModal} />}
       {showRegisterModal && <RegisterModal closeModal={closeModal} />}

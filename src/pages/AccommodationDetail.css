@@ -1,0 +1,303 @@
+.accommodation-detail-page {
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.image-gallery {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.main-image {
+  width: 50%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.thumbnail-images {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  margin-left: 20px;
+  justify-content: space-between;
+}
+
+.thumbnail-image {
+  width: 100%;
+  height: 48%;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.thumbnail-placeholder {
+  width: 100%;
+  height: 48%;
+  border-radius: 8px;
+  background-color: #f0f0f0;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.details {
+  width: 53%;
+}
+
+.accommodation-detail-info {
+  margin-bottom: 20px;
+}
+
+.accommodation-detail-info h1 {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+.accommodation-detail-info p {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  font-size: 1.2em;
+  margin-top: 5px;
+  color: #333;
+}
+
+.divider {
+  margin: 10px 0;
+  border: 0;
+  border-top: 1px solid #e0e0e0;
+}
+
+.host-info {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+}
+
+.host-info img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.host-info span {
+  font-size: 1.2em;
+  color: #333;
+}
+
+.reservation-section-wrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.reservation-section {
+  width: 350px;
+  padding: 24px;
+  background: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  margin-top: 20px; /* Add margin-top to prevent overlap with dividers */
+}
+
+.accommodation-name {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.price-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 20px;
+}
+
+.price {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+}
+
+.reviews {
+  font-size: 14px;
+  color: #333;
+}
+
+.date-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.accommodation-detail-check-in-out {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.accommodation-detail-check {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  border: 1px solid #bdbdbd;
+  padding: 8px;
+  padding-left: 7px;
+  padding-right: 7px;
+  border-radius: 10px;
+}
+
+.label {
+  font-size: 12px;
+  font-weight: bold;
+  color: #010101;
+}
+
+input[type="date"] {
+  width: 140px;
+  font-size: 14px;
+  color: #4f4f4f;
+  border: none;
+  margin-top: 5px;
+}
+
+input[type="number"] {
+  width: 50px;
+  font-size: 14px;
+  color: #4f4f4f;
+  border: none;
+  margin-top: 5px;
+}
+
+.guests {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  border: 1px solid #bdbdbd;
+  padding: 8px;
+  border-radius: 10px;
+}
+
+.error {
+  color: red;
+  margin-top: 10px;
+}
+
+.reserve-button {
+  background-color: #333;
+  color: white;
+  border: none;
+  padding: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 20px;
+  width: 100%;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.price-details {
+  margin-top: 20px;
+}
+
+.detail {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.total {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-weight: bold;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 10px;
+  margin-top: 10px;
+  font-size: 18px;
+}
+
+.accommodation-detail-info p {
+  margin-top: 0px;
+  margin-bottom: 10px;
+  font-size: 17px;
+  color: #555;
+}
+
+.grade-info {
+  font-weight: bold;
+}
+
+.reviews-section {
+  margin-top: 20px;
+}
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.review {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 20px;
+}
+
+.review-user-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.review-content {
+  flex: 1;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.review-user-name {
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.review-date {
+  font-size: 0.9em;
+  color: #777;
+  margin-left: 10px;
+}
+
+.review-grade {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.review-grade span {
+  font-size: 0.8em; /* Reduce star size */
+  color: #f39c12;
+}
+
+.review p {
+  margin: 0;
+}

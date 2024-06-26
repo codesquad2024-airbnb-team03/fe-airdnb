@@ -1,20 +1,25 @@
+// FilteredResults.js
+
 import React, { useEffect, useState, useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './FilteredResults.css';
 import useDebounce from '../hooks/useDebounce';
 import ReservationModal from '../components/ReservationModal';
 import LoginModal from '../components/LoginModal';
+import Header from '../components/Header'; // Import the Header component
 import API_BASE_URL from "../config";
 
 const FilteredResults = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { filters, accommodations: initialAccommodations } = location.state;
   const [accommodations, setAccommodations] = useState(initialAccommodations);
   const [currentPosition, setCurrentPosition] = useState({ latitude: 37.49082415564897, longitude: 127.03344781702127 });
   const [mapLevel, setMapLevel] = useState(5);
   const [selectedAccommodation, setSelectedAccommodation] = useState(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showRegisterModal, setShowRegisterModal] = useState(false); // Define the state for showRegisterModal
   const [user, setUser] = useState(null);
   const debouncedPosition = useDebounce(currentPosition, 500);
 
@@ -138,50 +143,78 @@ const FilteredResults = () => {
     setShowLoginModal(false);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("jwtToken");
+    setUser(null);
+    navigate("/");
+  };
+
+  const handleHostModeClick = () => {
+    navigate("/hosting", { state: { user } });
+  };
+
+  const handleAccommodationDetailClick = (id) => {
+    navigate(`/accommodation/${id}`);
+  };
+
   return (
-    <div className="filtered-results">
-      <div className="accommodation-list">
-        <div className="filter-summary">
-          <span>{filters.checkIn}<br />{filters.checkOut}</span>
-          <span>|</span>
-          <span>{filters.minPrice.toLocaleString()}원 - {filters.maxPrice.toLocaleString()}원</span>
-          <span>|</span>
-          <span>게스트 {filters.capacity}명</span>
-        </div>
-        <ul>
-          {accommodations.map((acc) => (
-            <li key={acc.id} className="accommodation-item" onClick={() => openReservationModal(acc)}>
-              <img src={acc.profileImg} alt={acc.name} />
-              <div className="accommodation-details">
-                <h3>{acc.name}</h3>
-                <p>{acc.address.fullAddress}</p>
-                <p className="accommodation-info">최대 인원: {acc.maxHeadCount}명</p>
-                <p className="accommodation-info">침대: {acc.bedCount}, 침실: {acc.bedroomCount}, 욕실: {acc.bathroomCount}</p>
-                <p className="accommodation-price">₩{acc.price.toLocaleString()} / 박</p>
-                <div className="accommodation-rating">
-                  <span>⭐</span>
-                  <span><span className="grade-info">{acc.averageGrade.toFixed(2)}</span> (리뷰 {acc.reviewCount}개)</span>
+    <div>
+      <Header
+        user={user}
+        handleLogout={handleLogout}
+        openLoginModal={() => setShowLoginModal(true)}
+        openRegisterModal={() => setShowRegisterModal(true)} // Use setShowRegisterModal
+        handleHostModeClick={handleHostModeClick}
+      />
+      <div className="filtered-results">
+        <div className="accommodation-list">
+          <div className="filter-summary">
+            <span>{filters.checkIn}<br />{filters.checkOut}</span>
+            <span>|</span>
+            <span>{filters.minPrice.toLocaleString()}원 - {filters.maxPrice.toLocaleString()}원</span>
+            <span>|</span>
+            <span>게스트 {filters.capacity}명</span>
+          </div>
+          <ul>
+            {accommodations.map((acc) => (
+              <li key={acc.id} className="accommodation-item" onClick={() => openReservationModal(acc)}>
+                <img src={acc.profileImg} alt={acc.name} />
+                <div className="accommodation-details">
+                  <h3>{acc.name}</h3>
+                  <p>{acc.address.fullAddress}</p>
+                  <p className="accommodation-info">최대 인원: {acc.maxHeadCount}명</p>
+                  <p className="accommodation-info">침대: {acc.bedCount}, 침실: {acc.bedroomCount}, 욕실: {acc.bathroomCount}</p>
+                  <p className="accommodation-price">₩{acc.price.toLocaleString()} / 박</p>
+                  <div className="accommodation-rating-container">
+                    <div className="accommodation-rating">
+                      <span>⭐</span>
+                      <span><span className="grade-info">{acc.averageGrade.toFixed(2)}</span> (리뷰 {acc.reviewCount}개)</span>
+                    </div>
+                    <span className="accommodation-detail-button" onClick={(e) => { e.stopPropagation(); handleAccommodationDetailClick(acc.id); }}>
+                      숙소 상세보기
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div className="map-container">
-        {currentPosition.latitude && currentPosition.longitude ? (
-          <div id="map" style={{ width: '100%', height: '100%' }}></div>
-        ) : (
-          <p>현재 위치를 가져오는 중...</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="map-container">
+          {currentPosition.latitude && currentPosition.longitude ? (
+            <div id="map" style={{ width: '100%', height: '100%' }}></div>
+          ) : (
+            <p>현재 위치를 가져오는 중...</p>
+          )}
+        </div>
+        {selectedAccommodation && (
+          <ReservationModal
+            accommodation={selectedAccommodation}
+            closeModal={closeReservationModal}
+            user={user}
+          />
         )}
+        {showLoginModal && <LoginModal closeModal={closeLoginModal} />}
       </div>
-      {selectedAccommodation && (
-        <ReservationModal
-          accommodation={selectedAccommodation}
-          closeModal={closeReservationModal}
-          user={user}
-        />
-      )}
-      {showLoginModal && <LoginModal closeModal={closeLoginModal} />}
     </div>
   );
 };
