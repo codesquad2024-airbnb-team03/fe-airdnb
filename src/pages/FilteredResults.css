@@ -76,7 +76,6 @@
 }
 
 .accommodation-details p {
-  /* margin: 8px 0; */
   color: #555;
 }
 
@@ -95,12 +94,18 @@
   text-align: right;
 }
 
+.accommodation-rating-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
 .accommodation-rating {
   font-size: 13px;
   display: flex;
   align-items: center;
   color: #f39c12;
-  margin-top: 8px;
 }
 
 .accommodation-rating span {
@@ -110,6 +115,13 @@
 
 .accommodation-rating .grade-info {
   font-weight: bold;
+}
+
+.accommodation-detail-button {
+  font-size: 13px;
+  cursor: pointer;
+  color: #007bff;
+  /* text-decoration: underline; */
 }
 
 /* Custom Overlay */

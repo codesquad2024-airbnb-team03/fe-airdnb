@@ -56,14 +56,14 @@ const AccommodationForm = ({ user }) => {
           [name]: value,
         },
       }));
+      setIsAddressVerified(false); // 주소 변경 시 검증 상태 초기화
+      setAddressVerificationMessage(""); // 메시지 초기화
     } else {
       setForm((prevForm) => ({
         ...prevForm,
         [name]: value,
       }));
     }
-    setIsAddressVerified(false); // 주소 변경 시 검증 상태 초기화
-    setAddressVerificationMessage(""); // 메시지 초기화
   };
 
   const verifyAddress = async () => {
@@ -179,7 +179,7 @@ const AccommodationForm = ({ user }) => {
       <h2>숙소 등록</h2>
       <form onSubmit={handleSubmit}>
         <label>
-          숙소 이름:
+          숙소 이름
           <input
             type="text"
             name="name"
@@ -189,7 +189,7 @@ const AccommodationForm = ({ user }) => {
           />
         </label>
         <label ref={addressRef}>
-          숙소 주소:
+          숙소 주소
           <input
             type="text"
             name="firstAddress"
@@ -234,7 +234,7 @@ const AccommodationForm = ({ user }) => {
           </div>
         </label>
         <label>
-          최대 게스트 수:
+          최대 게스트 수
           <input
             type="number"
             name="maxHeadCount"
@@ -245,7 +245,7 @@ const AccommodationForm = ({ user }) => {
           />
         </label>
         <label>
-          침실 개수:
+          침실 개수
           <input
             type="number"
             name="bedroomCount"
@@ -256,7 +256,7 @@ const AccommodationForm = ({ user }) => {
           />
         </label>
         <label>
-          침대 개수:
+          침대 개수
           <input
             type="number"
             name="bedCount"
@@ -267,7 +267,7 @@ const AccommodationForm = ({ user }) => {
           />
         </label>
         <label>
-          욕실 개수:
+          욕실 개수
           <input
             type="number"
             name="bathroomCount"
@@ -278,7 +278,7 @@ const AccommodationForm = ({ user }) => {
           />
         </label>
         <fieldset>
-          <legend>숙소 편의시설:</legend>
+          <legend>숙소 편의시설</legend>
           <div className="amenities">
             <label>
               <input
@@ -328,7 +328,7 @@ const AccommodationForm = ({ user }) => {
           </div>
         </fieldset>
         <label>
-          숙소 사진:
+          숙소 대표 사진
           <input
             type="file"
             name="photos"
