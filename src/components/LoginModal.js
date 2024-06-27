@@ -61,7 +61,7 @@ const LoginModal = ({ closeModal }) => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </label>
-          <button type="submit">Login</button>
+          <button className="login-button" type="submit">Login</button>
         </form>
         <button className="github-login" onClick={handleGithubLogin}>
           <span className="github-icon" />

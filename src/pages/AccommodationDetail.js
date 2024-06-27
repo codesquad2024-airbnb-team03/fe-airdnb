@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './AccommodationDetail.css';
-import Header from '../components/Header'; // Import the Header component
+import Header from '../components/Header';
+import ReviewForm from '../components/ReviewForm'; // Import ReviewForm component
 import API_BASE_URL from "../config";
 
 const AccommodationDetail = () => {
@@ -17,23 +18,16 @@ const AccommodationDetail = () => {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    const fetchAccommodationDetail = async () => {
-      const token = localStorage.getItem("jwtToken");
-      if (token) {
-        try {
-          const response = await axios.get(`${API_BASE_URL}/accommodations/${accommodationId}`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          setAccommodation(response.data);
-        } catch (error) {
-          console.error('Failed to fetch accommodation detail:', error);
-        }
-      }
-    };
+  const fetchAccommodationDetail = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/accommodations/${accommodationId}`);
+      setAccommodation(response.data);
+    } catch (error) {
+      console.error('Failed to fetch accommodation detail:', error);
+    }
+  };
 
+  useEffect(() => {
     fetchAccommodationDetail();
   }, [accommodationId]);
 
@@ -122,6 +116,11 @@ const AccommodationDetail = () => {
 
   const handleHostModeClick = () => {
     navigate("/hosting", { state: { user } });
+  };
+
+  const formatDate = (dateArray) => {
+    const [year, month, day, hour, minute, second, millisecond] = dateArray;
+    return new Date(year, month - 1, day).toLocaleDateString();
   };
 
   return (
@@ -238,7 +237,7 @@ const AccommodationDetail = () => {
                     {Array.from({ length: Math.round(review.grade) }).map((_, i) => (
                       <span key={i} className="small-star">⭐</span>
                     ))}
-                    <span className="review-date">{new Date(review.createdAt).toLocaleDateString()}</span>
+                    <span className="review-date">{formatDate(review.createdAt)}</span>
                   </div>
                   <p>{review.content}</p>
                 </div>
@@ -246,6 +245,7 @@ const AccommodationDetail = () => {
             ))}
           </div>
         </div>
+        {user && <ReviewForm accommodationId={accommodationId} onReviewSubmit={fetchAccommodationDetail} user={user} />} {/* Pass user to ReviewForm */}
       </div>
     </div>
   );

@@ -50,7 +50,7 @@ input {
     border-radius: 4px;
 }
   
-button[type="submit"] {
+.register_button {
     width: 100%;
     padding: 10px;
     margin-top: 10px;

@@ -1,28 +1,43 @@
-.main_content {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 20px;
-}
-
-.card_content {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-}
-
 .card {
   display: flex;
   align-items: center;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  margin: 10px 0;
+  background-color: white;
+  border: none;
+  padding: 20px;
+  width: 220px; 
+  text-align: left;
+  border-radius: 15px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.img {
+  width: 95px; /* Increase image size */
+  height: 95px; /* Increase image size */
+  object-fit: cover;
+  margin-right: 15px;
+  border-radius: 10px; /* Rounded corners */
 }
 
 .text-content {
-  display: flex;
-  flex-direction: column;
-  margin-left: 10px;
+  text-align: left;
+}
+
+.text-content p {
+  margin: 5px 0;
+}
+
+.place-text {
+  font-weight: 600;
+  font-size: 18px;
+  color: #333; /* Darker color for the place name */
+}
+
+.desc-text {
+  font-size: 14px;
+  color: #555;
 }

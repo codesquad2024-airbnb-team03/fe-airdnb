@@ -1,83 +1,75 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./Main.css";
 import Image from "../components/Image";
 
 const Main = () => {
+  const navigate = useNavigate();
+  
   const dataArr = [
     {
       id: 1,
-      src: require("../assets/image.png"),
-      place: "서울",
-      desc: "차로 30분 거리",
+      src: require("../assets/region_image1.png"),
+      place: "서울특별시",
+      desc: "Seoul",
     },
     {
       id: 2,
-      src: require("../assets/image.png"),
-      place: "의정부시",
-      desc: "차로 30분 거리",
+      src: require("../assets/region_image2.png"),
+      place: "경기도",
+      desc: "Gyeonggi-do",
     },
     {
       id: 3,
-      src: require("../assets/image.png"),
-      place: "대구",
-      desc: "차로 3.5시간 거리",
+      src: require("../assets/region_image3.png"),
+      place: "인천",
+      desc: "Incheon",
     },
     {
       id: 4,
-      src: require("../assets/image.png"),
-      place: "대전",
-      desc: "차로 2시간 거리",
+      src: require("../assets/region_image4.png"),
+      place: "대구",
+      desc: "Daegu",
     },
     {
       id: 5,
-      src: require("../assets/image.png"),
-      place: "광주",
-      desc: "차로 4시간 거리",
+      src: require("../assets/region_image5.png"),
+      place: "대전",
+      desc: "Daejeon",
     },
     {
       id: 6,
-      src: require("../assets/image.png"),
-      place: "수원시",
-      desc: "차로 45분 거리",
+      src: require("../assets/region_image6.png"),
+      place: "강원도",
+      desc: "Gangwon-do",
     },
     {
       id: 7,
-      src: require("../assets/image.png"),
+      src: require("../assets/region_image7.png"),
       place: "울산",
-      desc: "차로 4.5시간 거리",
+      desc: "Ulsan",
     },
     {
       id: 8,
-      src: require("../assets/image.png"),
-      place: "부천시",
-      desc: "차로 45분 거리",
+      src: require("../assets/region_image8.png"),
+      place: "부산",
+      desc: "Busan",
     },
   ];
 
+  const handleRegionClick = (region) => {
+    navigate("/filteredRegionResults", { state: { region } });
+  };
+
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "100%",
-        marginTop: 100,
-        marginBottom: 100,
-      }}
-    >
-      <p
-        style={{
-          fontSize: 20,
-          fontWeight: 500,
-          marginLeft: 55,
-        }}
-      >
-        가까운 여행지 둘러보기
-      </p>
-      <div className="main_content">
-        <div className="card_content">
-          {dataArr.map((data) => (
-            <Image key={data.id} data={data} />
-          ))}
-        </div>
+    <div className="main-container">
+      <p className="title">가까운 여행지 둘러보기</p>
+      <div className="main-content">
+        {dataArr.map((data) => (
+          <div key={data.id} onClick={() => handleRegionClick(data.place)}>
+            <Image data={data} />
+          </div>
+        ))}
       </div>
     </div>
   );

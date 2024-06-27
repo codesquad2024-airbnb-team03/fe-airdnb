@@ -1,0 +1,96 @@
+.review-form {
+    background: #fff;
+    padding: 20px; 
+    padding-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd; 
+    width: 800px;
+    margin-top: 20px;
+    margin-right: auto;
+    margin-top: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .review-form h3 {
+    text-align: left;
+    margin-bottom: 20px;
+    font-size: 18px;
+    width: 100%;
+  }
+  
+  .user-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+  
+  .user-profile-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .user-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .form-group {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 10px; 
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .form-group textarea {
+    width: 100%;
+    padding: 15px; 
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    resize: none;
+    background-color: #f7f8fa;
+    color: #333;
+    font-family: 'Arial', sans-serif;
+    box-sizing: border-box;
+  }
+  
+  .form-group textarea::placeholder {
+    color: #aaa;
+  }
+  
+  .error {
+    color: red;
+    margin-top: 10px;
+    width: 100%;
+  }
+  
+  .submit-button-review {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px; 
+    border-radius: 8px;
+    cursor: pointer;
+    width: 140px;
+    font-weight: bold;
+    margin-left: auto;
+    margin-right: 10px;
+    transition: background-color 0.3s ease; 
+  }
+  
+  .submit-button-review:hover {
+    background-color: #555; 
+  }
+  
