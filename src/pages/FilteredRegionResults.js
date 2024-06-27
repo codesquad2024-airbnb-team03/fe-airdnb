@@ -1,52 +1,52 @@
-// FilteredResults.js
-
 import React, { useEffect, useState, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './FilteredResults.css';
-import useDebounce from '../hooks/useDebounce';
 import ReservationModal from '../components/ReservationModal';
 import LoginModal from '../components/LoginModal';
 import Header from '../components/Header'; // Import the Header component
 import API_BASE_URL from "../config";
 
-const FilteredResults = () => {
+const regionCoordinates = {
+  서울특별시: { latitude: 37.521876280109616, longitude: 126.98283081262012, mapLevel: 7 },
+  경기도: { latitude: 37.35911630920982, longitude: 127.13620407074511, mapLevel: 9 },
+  인천: { latitude: 37.456056230920616, longitude: 126.70524091346415, mapLevel: 8 },
+  대구: { latitude: 35.871387892777264, longitude: 128.60180785897748, mapLevel: 8 },
+  대전: { latitude: 36.350541152209146, longitude: 127.3848348578405, mapLevel: 8 },
+  강원도: { latitude: 37.562459120946635, longitude: 128.42898270848892, mapLevel: 11 },
+  울산: { latitude: 35.53960598692905, longitude: 129.31159823473124, mapLevel: 8 },
+  부산: { latitude: 35.179721719553264, longitude: 129.0750674304489, mapLevel: 8 }
+};
+
+const FilteredRegionResults = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { filters, accommodations: initialAccommodations } = location.state;
-  const [accommodations, setAccommodations] = useState(initialAccommodations);
-  const [currentPosition, setCurrentPosition] = useState({ latitude: 37.49082415564897, longitude: 127.03344781702127 });
-  const [mapLevel, setMapLevel] = useState(5);
+  const { region } = location.state;
+  const [accommodations, setAccommodations] = useState([]);
+  const [currentPosition, setCurrentPosition] = useState({
+    latitude: regionCoordinates[region].latitude,
+    longitude: regionCoordinates[region].longitude
+  });
+  const [mapLevel, setMapLevel] = useState(regionCoordinates[region].mapLevel);
   const [selectedAccommodation, setSelectedAccommodation] = useState(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const [showRegisterModal, setShowRegisterModal] = useState(false); // Define the state for showRegisterModal
+  const [showRegisterModal, setShowRegisterModal] = useState(false); 
   const [user, setUser] = useState(null);
-  const debouncedPosition = useDebounce(currentPosition, 500);
 
-  const fetchFilteredAccommodations = useCallback(async (latitude, longitude) => {
+  const fetchRegionAccommodations = useCallback(async (region) => {
     try {
-      const response = await axios.get(API_BASE_URL + "/accommodations/filter", {
-        params: {
-          currentLatitude: latitude,
-          currentLongitude: longitude,
-          checkIn: filters.checkIn,
-          checkOut: filters.checkOut,
-          minPrice: filters.minPrice,
-          maxPrice: filters.maxPrice,
-          capacity: filters.capacity
-        }
-      });
+      const response = await axios.get(API_BASE_URL + "/accommodations/filter/region/" + region);
       setAccommodations(response.data);
     } catch (error) {
-      console.error("Failed to fetch filtered accommodations:", error);
+      console.error("Failed to fetch region accommodations:", error);
     }
-  }, [filters]);
+  }, []);
 
   useEffect(() => {
-    if (debouncedPosition.latitude && debouncedPosition.longitude) {
-      fetchFilteredAccommodations(debouncedPosition.latitude, debouncedPosition.longitude);
+    if (region) {
+      fetchRegionAccommodations(region);
     }
-  }, [debouncedPosition, fetchFilteredAccommodations]);
+  }, [region, fetchRegionAccommodations]);
 
   useEffect(() => {
     if (currentPosition.latitude && currentPosition.longitude) {
@@ -126,12 +126,7 @@ const FilteredResults = () => {
     if (!user) {
       setShowLoginModal(true);
     } else {
-      setSelectedAccommodation({
-        ...accommodation,
-        initialGuestCount: filters.capacity,
-        initialCheckIn: filters.checkIn,
-        initialCheckOut: filters.checkOut
-      });
+      setSelectedAccommodation(accommodation);
     }
   };
 
@@ -163,17 +158,13 @@ const FilteredResults = () => {
         user={user}
         handleLogout={handleLogout}
         openLoginModal={() => setShowLoginModal(true)}
-        openRegisterModal={() => setShowRegisterModal(true)} // Use setShowRegisterModal
+        openRegisterModal={() => setShowRegisterModal(true)} 
         handleHostModeClick={handleHostModeClick}
       />
       <div className="filtered-results">
         <div className="accommodation-list">
           <div className="filter-summary">
-            <span>{filters.checkIn}<br />{filters.checkOut}</span>
-            <span>|</span>
-            <span>{filters.minPrice.toLocaleString()}원 - {filters.maxPrice.toLocaleString()}원</span>
-            <span>|</span>
-            <span>게스트 {filters.capacity}명</span>
+            <span>{region}</span>
           </div>
           <ul>
             {accommodations.map((acc) => (
@@ -219,4 +210,4 @@ const FilteredResults = () => {
   );
 };
 
-export default FilteredResults;
+export default FilteredRegionResults;

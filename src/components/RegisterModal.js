@@ -79,7 +79,7 @@ const RegisterModal = ({ closeModal }) => {
           {passwordMatch && (
             <p className="success-message">비밀번호가 일치합니다.</p>
           )}
-          <button type="submit" disabled={passwordMatch === false}>
+          <button className="register_button" type="submit" disabled={passwordMatch === false}>
             회원 가입
           </button>
         </form>
