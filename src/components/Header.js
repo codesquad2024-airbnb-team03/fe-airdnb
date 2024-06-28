@@ -46,6 +46,7 @@ const Header = ({ user, handleLogout, openLoginModal, openRegisterModal, handleH
         </ul>
       </nav>
       <div className="profile-container">
+        {user && <span className="welcome-message"> <span className="bold-name">{user.name}</span> 님</span>}
         <div className="nav-tab-container" onClick={handleProfileClick} ref={profileRef}>
           <div className="hamburger-menu">
             <div className="bar"></div>

@@ -22,19 +22,19 @@ const Main = () => {
     {
       id: 3,
       src: require("../assets/region_image3.png"),
-      place: "인천",
+      place: "인천광역시",
       desc: "Incheon",
     },
     {
       id: 4,
       src: require("../assets/region_image4.png"),
-      place: "대구",
+      place: "대구광역시",
       desc: "Daegu",
     },
     {
       id: 5,
       src: require("../assets/region_image5.png"),
-      place: "대전",
+      place: "대전광역시",
       desc: "Daejeon",
     },
     {
@@ -46,13 +46,13 @@ const Main = () => {
     {
       id: 7,
       src: require("../assets/region_image7.png"),
-      place: "울산",
+      place: "울산광역시",
       desc: "Ulsan",
     },
     {
       id: 8,
       src: require("../assets/region_image8.png"),
-      place: "부산",
+      place: "부산광역시",
       desc: "Busan",
     },
   ];
@@ -63,7 +63,7 @@ const Main = () => {
 
   return (
     <div className="main-container">
-      <p className="title">가까운 여행지 둘러보기</p>
+      <p className="title">지역별 여행지 둘러보기</p>
       <div className="main-content">
         {dataArr.map((data) => (
           <div key={data.id} onClick={() => handleRegionClick(data.place)}>

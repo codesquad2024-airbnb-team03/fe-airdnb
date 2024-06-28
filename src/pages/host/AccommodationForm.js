@@ -190,14 +190,30 @@ const AccommodationForm = ({ user }) => {
         </label>
         <label ref={addressRef}>
           숙소 주소
-          <input
-            type="text"
+          <select
             name="firstAddress"
             value={form.address.firstAddress}
             onChange={handleChange}
-            placeholder="도/(특별)광역시"
             required
-          />
+          >
+            <option value="">도/(특별)광역시 선택</option>
+            <option value="서울특별시">서울특별시</option>
+            <option value="경기도">경기도</option>
+            <option value="부산광역시">부산광역시</option>
+            <option value="대구광역시">대구광역시</option>
+            <option value="인천광역시">인천광역시</option>
+            <option value="광주광역시">광주광역시</option>
+            <option value="대전광역시">대전광역시</option>
+            <option value="울산광역시">울산광역시</option>
+            <option value="강원도">강원도</option>
+            <option value="충청북도">충청북도</option>
+            <option value="충청남도">충청남도</option>
+            <option value="전라남도">전라남도</option>
+            <option value="전라북도">전라북도</option>
+            <option value="경상북도">경상북도</option>
+            <option value="경상남도">경상남도</option>
+            <option value="제주도">제주도</option>
+          </select>
           <input
             type="text"
             name="secondAddress"
@@ -280,7 +296,7 @@ const AccommodationForm = ({ user }) => {
         <fieldset>
           <legend>숙소 편의시설</legend>
           <div className="amenities">
-            <label>
+            <label className="amenity-option">
               <input
                 type="checkbox"
                 name="wifi"
@@ -289,7 +305,7 @@ const AccommodationForm = ({ user }) => {
               />
               무선 인터넷
             </label>
-            <label>
+            <label className="amenity-option">
               <input
                 type="checkbox"
                 name="tv"
@@ -298,7 +314,7 @@ const AccommodationForm = ({ user }) => {
               />
               TV
             </label>
-            <label>
+            <label className="amenity-option">
               <input
                 type="checkbox"
                 name="kitchen"
@@ -307,7 +323,7 @@ const AccommodationForm = ({ user }) => {
               />
               주방
             </label>
-            <label>
+            <label className="amenity-option">
               <input
                 type="checkbox"
                 name="washer"
@@ -316,7 +332,7 @@ const AccommodationForm = ({ user }) => {
               />
               세탁기
             </label>
-            <label>
+            <label className="amenity-option">
               <input
                 type="checkbox"
                 name="parking"

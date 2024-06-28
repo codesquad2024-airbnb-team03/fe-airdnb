@@ -10,12 +10,12 @@ import API_BASE_URL from "../config";
 const regionCoordinates = {
   서울특별시: { latitude: 37.521876280109616, longitude: 126.98283081262012, mapLevel: 7 },
   경기도: { latitude: 37.35911630920982, longitude: 127.13620407074511, mapLevel: 9 },
-  인천: { latitude: 37.456056230920616, longitude: 126.70524091346415, mapLevel: 8 },
-  대구: { latitude: 35.871387892777264, longitude: 128.60180785897748, mapLevel: 8 },
-  대전: { latitude: 36.350541152209146, longitude: 127.3848348578405, mapLevel: 8 },
+  인천광역시: { latitude: 37.456056230920616, longitude: 126.70524091346415, mapLevel: 8 },
+  대구광역시: { latitude: 35.871387892777264, longitude: 128.60180785897748, mapLevel: 8 },
+  대전광역시: { latitude: 36.350541152209146, longitude: 127.3848348578405, mapLevel: 8 },
   강원도: { latitude: 37.562459120946635, longitude: 128.42898270848892, mapLevel: 11 },
-  울산: { latitude: 35.53960598692905, longitude: 129.31159823473124, mapLevel: 8 },
-  부산: { latitude: 35.179721719553264, longitude: 129.0750674304489, mapLevel: 8 }
+  울산광역시: { latitude: 35.53960598692905, longitude: 129.31159823473124, mapLevel: 8 },
+  부산광역시: { latitude: 35.179721719553264, longitude: 129.0750674304489, mapLevel: 8 }
 };
 
 const FilteredRegionResults = () => {

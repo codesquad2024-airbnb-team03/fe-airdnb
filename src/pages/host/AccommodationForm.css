@@ -28,7 +28,8 @@
 
 .accommodation-form-container input[type="text"],
 .accommodation-form-container input[type="number"],
-.accommodation-form-container input[type="file"] {
+.accommodation-form-container input[type="file"],
+.accommodation-form-container select {
   padding: 10px;
   margin-top: 5px;
   margin-bottom: 15px;
@@ -44,22 +45,37 @@
 }
 
 .accommodation-form-container fieldset {
+  width: 100%;
   margin-bottom: 20px;
   border: none;
 }
 
 .accommodation-form-container fieldset legend {
   font-size: 18px;
+  font-weight: bold;
   margin-bottom: 10px;
   color: #333;
 }
 
-.accommodation-form-container .amenities label {
+.accommodation-form-container .amenities {
   display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.accommodation-form-container .amenity-option {
+  display: flex;
+  width: 100px;
   align-items: center;
-  margin-bottom: 10px;
-  font-weight: normal;
-  font-size: 16px;
+  background-color: #f6f6f6;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s;
+}
+
+.accommodation-form-container .amenity-option:hover {
+  background-color: #e6e6e6;
 }
 
 .accommodation-form-container .verification-container {
@@ -100,6 +116,7 @@
 }
 
 .accommodation-form-container button {
+  width: 120px;
   padding: 15px;
   background-color: #ff5a5f;
   color: white;
