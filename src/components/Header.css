@@ -101,3 +101,12 @@
     background-color: #f0f0f0;
   }
   
+  .welcome-message {
+    margin-right: 15px;
+    font-size: 16px;
+    color: #333;
+  }
+
+  .bold-name{
+    font-weight: bold;
+  }
